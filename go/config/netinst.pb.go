@@ -559,6 +559,12 @@ type NetworkInstanceConfig struct {
 	// type of ipSpec
 	IpType AddressType `protobuf:"varint,39,opt,name=ipType,proto3,enum=org.lfedge.eve.config.AddressType" json:"ipType,omitempty"`
 	// network ip specification
+	// If ip.gateway is set to all-zeroes IP, default route will not be propagated
+	// to applications for interfaces connected to this network instance.
+	// Default route propagation is also automatically suppressed when the network
+	// instance is air-gapped or when the uplink is app-shared without default route
+	// configured. This behaviour can be further customized using static_routes
+	// (see below).
 	Ip *Ipspec `protobuf:"bytes,40,opt,name=ip,proto3" json:"ip,omitempty"`
 	// static DNS entry, if we are running DNS/DHCP service
 	Dns []*ZnetStaticDNSEntry `protobuf:"bytes,41,rep,name=dns,proto3" json:"dns,omitempty"`
@@ -582,11 +588,16 @@ type NetworkInstanceConfig struct {
 	// routes can be propagated at the same time, there are no restrictions for using both.
 	//
 	// Note that the default route (with the bridge IP as the gateway) is automatically
-	// propagated to connected applications unless explicitly disabled by setting
-	// NetworkInstanceConfig.ip.gateway to an all-zeroes IP or when the uplink is app-shared
-	// (not management) and does not have a default route of its own. In the latter case,
-	// it is possible to enforce default route propagation by configuring a static default
-	// route for the network instance.
+	// propagated to connected applications with these exceptions:
+	//
+	//	a) default route propagation is explicitly disabled by setting
+	//	   NetworkInstanceConfig.ip.gateway to an all-zeroes IP
+	//	b) network instance is air-gapped (without uplink)
+	//	c) the uplink is app-shared (not management) and does not have a default route
+	//	   of its own
+	//
+	// In the b) and c) cases, it is possible to enforce default route propagation
+	// by configuring a static default route for the network instance.
 	//
 	// This option is only valid for local network instances. For other types
 	// of network instances, it will be ignored.
