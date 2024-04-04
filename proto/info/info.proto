@@ -372,6 +372,15 @@ message ZSimcardInfo {
   // True if this SIM slot is activated (i.e. inserted SIM card can be used to connect
   // to cellular network).
   bool slot_activated = 8;
+  // Type of the SIM card.
+  SimType type = 9;
+}
+
+// SimType : type of the SIM card.
+enum SimType {
+  SIM_TYPE_UNSPECIFIED = 0; // SIM type is not specified
+  SIM_TYPE_PHYSICAL = 1;    // physical SIM card
+  SIM_TYPE_ESIM = 2;        // eSIM (embedded-SIM)
 }
 
 message ZCellularModuleInfo {
