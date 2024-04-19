@@ -114,3 +114,33 @@ enum WiFiKeyScheme {
   WPAPSK = 1;        // WPA-PSK
   WPAEAP = 2;        // WPA-EAP or WPA2 Enterprise
 }
+
+// User-defined method to use to determine the connectivity status.
+enum ConnectivityProbeMethod {
+  // Connectivity probing method is not specified and therefore will not be used.
+  CONNECTIVITY_PROBE_METHOD_UNSPECIFIED = 0;
+  // Use ICMP ping against the probed endpoint to determine the connectivity status.
+  CONNECTIVITY_PROBE_METHOD_ICMP = 1;
+  // Try to establish TCP connection with the probed endpoint to determine the connectivity
+  // status.
+  CONNECTIVITY_PROBE_METHOD_TCP = 2;
+  // TODO: Consider adding support for BFD probing.
+}
+
+// Address of a remote endpoint to probe in order to determine connectivity status.
+message ProbeEndpoint {
+  // IP address or FQDN.
+  string host = 1;
+  // TCP port required for CONNECTIVITY_PROBE_METHOD_TCP.
+  // Leave empty for CONNECTIVITY_PROBE_METHOD_ICMP.
+  uint32 port = 2;
+}
+
+// Configuration for user-defined connectivity-testing probe.
+message ConnectivityProbe {
+  // Method to use to determine the connectivity status.
+  ConnectivityProbeMethod probe_method = 1;
+  // Endpoint to probe using the selected probing mechanism to determine
+  // the connectivity status.
+  ProbeEndpoint probe_endpoint = 2;
+}
