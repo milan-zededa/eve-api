@@ -607,7 +607,8 @@ type NetworkInstanceConfig struct {
 	// If not defined (zero value), EVE will set the MTU to the default value of 1500 bytes.
 	// On the host side, MTU is set to interfaces by EVE. On the guest (app) side,
 	// the responsibility to set the MTU lies either with EVE or with the user/app, depending on
-	// the network instance and app type (local or switch, VM or container).
+	// the network instance, app type and the type of interfaces used (local or switch,
+	// VM or container, virtio or emulated).
 	// For container applications running inside an EVE-created shim-VM, EVE initializes
 	// the MTU of interfaces during shim-VM boot. Furthermore, interfaces connected
 	// to local network instances will have their MTUs automatically updated if there is
@@ -615,11 +616,17 @@ type NetworkInstanceConfig struct {
 	// network instances, the user may run an external DHCP server in the network and publish
 	// MTU changes via DHCP option 26 (the DHCP client run by EVE inside shim-VM will pick it up
 	// and apply it).
-	// In the case of VM applications, it is the responsibility of the app to configure the MTUs.
-	// For interfaces connected to local network instances, the app can run a DHCP client and
-	// receive the latest MTU via DHCP option 26. For switch network instances, the user should
-	// either run their own external DHCP server in the network with the MTU option configured
-	// or use a different mechanism to set the interface MTU (e.g., cloud-init).
+	// In the case of VM applications, it is mostly the responsibility of the app/user to set
+	// and keep the MTUs up-to-date.
+	// If device provides HW-assisted virtualization capabilities, EVE will connect VM with
+	// network instances using para-virtualized virtio interfaces, which allow to propagate MTU
+	// value from the host to the guest. If the virtio driver used by the app supports the MTU
+	// propagation (VIRTIO_NET_F_MTU feature flag is set), the initial MTU values will be set
+	// using virtio (regardless of the network instance type).
+	// To support MTU update for interfaces connected to local network instances, the app can
+	// run a DHCP client and receive the latest MTU via DHCP option 26. For switch network
+	// instances, the user can run his own external DHCP server in the network with the MTU
+	// option configured.
 	// Please note that application traffic leaving or entering the device via a network
 	// adapter associated with the network instance is additionally limited by the MTU
 	// value of the adapter, configured within the NetworkConfig object (refer to netconfig.proto).
