@@ -297,4 +297,17 @@ message NetworkInstanceConfig {
   // as MTU for air-gapped network instances and the lowest MTU among NI ports for NIs with
   // external connectivity.
   uint32 mtu = 44;
+
+  // Disable flow logging for this network instance.
+  // When flow logging is enabled, EVE periodically records all application TCP and UDP
+  // flows. A flow record includes the application UUID, VIF name, open/close timestamps,
+  // source/destination IP/port/protocol 5-tuple, and packet and byte counters.
+  // Additionally, EVE records every DNS request made by an application, including
+  // the request time, the hostname being resolved, and the returned IP address(es).
+  // The flow logging API can be found in proto/config/flowlog/flowlog.proto
+  // If flow logging is not needed, it is recommended to disable this feature as it
+  // can potentially generate a large amount of data, which is then uploaded to the controller.
+  // Depending on the implementation, it may also introduce additional packet processing
+  // overhead.
+  bool disable_flowlog = 50;
 }
