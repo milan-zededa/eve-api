@@ -310,4 +310,21 @@ message NetworkInstanceConfig {
   // Depending on the implementation, it may also introduce additional packet processing
   // overhead.
   bool disable_flowlog = 50;
+
+  // VLAN access ports configured for a switch network instance.
+  // For other types of network instances, this option is ignored.
+  // This setting applies to physical network ports attached to the network instance.
+  // VLAN configuration for application interfaces is applied separately via AppInstanceConfig
+  // (see NetworkAdapter.access_vlan_id).
+  repeated VlanAccessPort vlan_access_ports = 51;
+}
+
+// VLAN Access Port config applied to physical port(s) attached to a Switch Network Instance.
+message VlanAccessPort {
+  // VLAN ID from the range <1,4094>
+  uint32 vlan_id = 1;
+  // Physical network adapter used as the access port for the given VLAN.
+  // Either a single NI port referenced by its name (SystemAdapter.Name, aka logical label)
+  // or an adapter shared-label matching zero or more NI ports.
+  string access_port = 2;
 }
