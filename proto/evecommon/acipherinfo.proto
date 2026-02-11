@@ -105,4 +105,9 @@ message EncryptionBlock {
   // Encrypted GZIP Compressed yaml manifest used for
   // completing registration into a controller.
   bytes gzip_registration_manifest_yaml = 13;
+
+  // Encrypted SCEP challenge password.
+  // Used for one-time or shared-secret–based authorization during
+  // certificate enrollment.
+  string scep_challenge_password = 14;
 }
