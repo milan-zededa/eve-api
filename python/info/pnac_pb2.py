@@ -12,9 +12,10 @@ _sym_db = _symbol_database.Default()
 
 
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
+from info import common_pb2 as info_dot_common__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0finfo/pnac.proto\x12\x13org.lfedge.eve.info\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9b\x01\n\nPNACStatus\x12\x0f\n\x07\x65nabled\x18\x01 \x01(\x08\x12\x33\n\x05state\x18\x02 \x01(\x0e\x32$.org.lfedge.eve.info.SupplicantState\x12\x37\n\x13last_auth_timestamp\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x0e\n\x06\x65rrors\x18\x04 \x03(\t*\xf8\x01\n\x0fSupplicantState\x12 \n\x1cSUPPLICANT_STATE_UNSPECIFIED\x10\x00\x12!\n\x1dSUPPLICANT_STATE_DISCONNECTED\x10\x01\x12\x1f\n\x1bSUPPLICANT_STATE_CONNECTING\x10\x02\x12#\n\x1fSUPPLICANT_STATE_AUTHENTICATING\x10\x03\x12\"\n\x1eSUPPLICANT_STATE_AUTHENTICATED\x10\x04\x12\x1b\n\x17SUPPLICANT_STATE_FAILED\x10\x05\x12\x19\n\x15SUPPLICANT_STATE_HELD\x10\x06\x42\x39\n\x13org.lfedge.eve.infoZ\"github.com/lf-edge/eve-api/go/infob\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0finfo/pnac.proto\x12\x13org.lfedge.eve.info\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x11info/common.proto\"\xb8\x01\n\nPNACStatus\x12\x0f\n\x07\x65nabled\x18\x01 \x01(\x08\x12\x33\n\x05state\x18\x02 \x01(\x0e\x32$.org.lfedge.eve.info.SupplicantState\x12\x37\n\x13last_auth_timestamp\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x03\x65rr\x18\x04 \x01(\x0b\x32\x1e.org.lfedge.eve.info.ErrorInfo*\xf8\x01\n\x0fSupplicantState\x12 \n\x1cSUPPLICANT_STATE_UNSPECIFIED\x10\x00\x12!\n\x1dSUPPLICANT_STATE_DISCONNECTED\x10\x01\x12\x1f\n\x1bSUPPLICANT_STATE_CONNECTING\x10\x02\x12#\n\x1fSUPPLICANT_STATE_AUTHENTICATING\x10\x03\x12\"\n\x1eSUPPLICANT_STATE_AUTHENTICATED\x10\x04\x12\x1b\n\x17SUPPLICANT_STATE_FAILED\x10\x05\x12\x19\n\x15SUPPLICANT_STATE_HELD\x10\x06\x42\x39\n\x13org.lfedge.eve.infoZ\"github.com/lf-edge/eve-api/go/infob\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -23,8 +24,8 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'\n\023org.lfedge.eve.infoZ\"github.com/lf-edge/eve-api/go/info'
-  _globals['_SUPPLICANTSTATE']._serialized_start=232
-  _globals['_SUPPLICANTSTATE']._serialized_end=480
-  _globals['_PNACSTATUS']._serialized_start=74
-  _globals['_PNACSTATUS']._serialized_end=229
+  _globals['_SUPPLICANTSTATE']._serialized_start=280
+  _globals['_SUPPLICANTSTATE']._serialized_end=528
+  _globals['_PNACSTATUS']._serialized_start=93
+  _globals['_PNACSTATUS']._serialized_end=277
 # @@protoc_insertion_point(module_scope)
