@@ -63,7 +63,6 @@ message CSRProfile {
   string country = 4;                // C
   string state = 5;                  // ST
   string locality = 6;               // L
-  string email_address = 7;          // Email address
 
   // X.509 Subject Alternative Name (SAN) attributes.
   repeated string san_dns = 10;       // DNS names

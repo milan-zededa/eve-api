@@ -9,6 +9,7 @@ option go_package = "github.com/lf-edge/eve-api/go/info";
 option java_package = "org.lfedge.eve.info";
 
 import "google/protobuf/timestamp.proto";
+import "info/common.proto";
 
 // Device-reported status of Port-Based Network Access Control (PNAC)
 // using IEEE 802.1X on a specific network port.
@@ -23,9 +24,10 @@ message PNACStatus {
   // Unset if authentication has not yet completed successfully.
   google.protobuf.Timestamp last_auth_timestamp = 3;
 
-  // Optional errors reported by the supplicant.
-  // May include authentication failures, certificate errors, or timeouts.
-  repeated string errors = 4;
+  // Error reported by the supplicant during authentication,
+  // such as an authentication failure, certificate validation error,
+  // or timeout.
+  ErrorInfo err = 4;
 }
 
 // IEEE 802.1X supplicant states as observed on the device.

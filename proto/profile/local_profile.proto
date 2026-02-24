@@ -5,6 +5,7 @@ syntax = "proto3";
 
 import "evecommon/evecommon.proto";
 import "info/info.proto";
+import "info/common.proto";
 import "metrics/metrics.proto";
 import "google/protobuf/timestamp.proto";
 

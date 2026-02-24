@@ -9,6 +9,7 @@ option go_package = "github.com/lf-edge/eve-api/go/info";
 option java_package = "org.lfedge.eve.info";
 
 import "google/protobuf/timestamp.proto";
+import "info/common.proto";
 
 // Device-reported information about an enrolled X.509 certificate.
 // This message reflects the current state of the certificate on the device
@@ -35,11 +36,24 @@ message CertInfo {
   google.protobuf.Timestamp issue_timestamp = 8;      // notBefore
   google.protobuf.Timestamp expiration_timestamp = 9; // notAfter
 
+  // Certificate renewal setting for this certificate.
+  // Specifies the percentage (%) of the time between issue_timestamp
+  // and expiration_timestamp after which the device begins attempting
+  // renewal (e.g., 80 means renewal starts after 80% of the certificate’s
+  // validity period has elapsed).
+  uint32 renew_period_percent = 10;
+
   // SHA-256 fingerprint of the certificate (hex-encoded).
-  string sha256_fingerprint = 10;
+  string sha256_fingerprint = 11;
 
   // Current status of the certificate as observed by the device.
-  CertStatus status = 11;
+  CertStatus status = 12;
+
+  // Detailed error information related to certificate enrollment or
+  // renewal. Present only when status is CERT_STATUS_EXPIRED,
+  // CERT_STATUS_ENROLLMENT_FAILED, CERT_STATUS_RENEWAL_FAILED
+  // or CERT_STATUS_INVALID_CONFIG.
+  ErrorInfo err = 13;
 }
 
 // CertDistinguishedName represents an X.509 distinguished name.
@@ -61,9 +75,20 @@ enum CertStatus {
   CERT_STATUS_AVAILABLE = 1;
   // Certificate enrollment or renewal is in progress and not yet complete.
   CERT_STATUS_PENDING = 2;
-  // Certificate has expired (current time is past notAfter).
+  // Certificate has expired (the current time is past notAfter).
+  // Renewal may have failed; see CertInfo.err for related errors.
   CERT_STATUS_EXPIRED = 3;
   // Certificate has been revoked or is otherwise considered invalid.
   CERT_STATUS_REVOKED = 4;
+  // Certificate enrollment failed and no valid certificate is available
+  // on the device. See CertInfo.err for details.
+  CERT_STATUS_ENROLLMENT_FAILED = 5;
+  // A certificate is currently present and not yet expired, but the most
+  // recent renewal attempt failed. The existing certificate may still
+  // be usable. See CertInfo.err for details.
+  CERT_STATUS_RENEWAL_FAILED = 6;
+  // Certificate configuration is invalid or malformed, preventing
+  // enrollment or renewal. See CertInfo.err for details.
+  CERT_STATUS_INVALID_CONFIG = 7;
 }
 
